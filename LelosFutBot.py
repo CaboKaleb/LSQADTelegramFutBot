@@ -40,7 +40,7 @@ def nuevaMejenga(message):
         print(err)
 
 @bot.message_handler(commands=["finMejenga"])
-def nuevaMejenga(message):
+def finMejenga(message):
     try:
         if Mejenga != "" :
             _mejengaData = message.text.split()[1:]
