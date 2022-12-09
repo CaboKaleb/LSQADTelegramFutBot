@@ -48,7 +48,7 @@ def finMejenga(message):
             setMejenga("","")
             clearPlayers()
         else:
-            bot.reply_to( message,"Ya hay una mejenga activa, NO SEA INVECIL.")
+            bot.reply_to( message,"No hay Mejenga que finalizar.")
     except Exception as err :
         print(err)
 
