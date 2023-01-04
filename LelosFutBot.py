@@ -1,7 +1,7 @@
 import telebot
 import random
 
-Players = []
+Players = ["Julio","Brayan","Caleb","Adrian","Emma","Patwo","Jefry","Juan","Jose","Tortu"]
 BackUp = []
 Mejenga = ""
 TipoMejenga = 0
@@ -25,7 +25,7 @@ def setMejenga(mejenga,tipoMejenga):
 
 @bot.message_handler(commands=["help","ayuda"])
 def help(message):
-    bot.reply_to(message," Lista de Comandos activos : /help, /nuevaMejenga @DatoMejenga @TipoMejenga , /finMejenga, /estoyDentro, /estoyFuera, /comoVamos, /voyReserva, /fueraReserva ")
+    bot.reply_to(message," Lista de Comandos activos : /help, /nuevaMejenga @DatoMejenga @TipoMejenga , /finMejenga, /estoyDentro, /estoyFuera, /comoVamos, /voyReserva, /fueraReserva, /rifarEquipos ")
 
 @bot.message_handler(commands=["nuevaMejenga"])
 def nuevaMejenga(message):
@@ -43,8 +43,7 @@ def nuevaMejenga(message):
 def finMejenga(message):
     try:
         if Mejenga != "" :
-            _mejengaData = message.text.split()[1:]
-            bot.send_message(chat_id=message.chat.id,text=f"La Mejenga {_mejengaData[0]} ha terminado.")
+            bot.send_message(chat_id=message.chat.id,text=f"La Mejenga {Mejenga} ha terminado.")
             setMejenga("","")
             clearPlayers()
         else:
@@ -60,7 +59,7 @@ def comoVamos(message):
         return
 
     _message = f" --- {Mejenga} ----\n \n"
-    _message = _message + f"Lista de Jugadores - Somos {len(Players)} \n \n"
+    _message = _message + f"Lista de Jugadores - Somos {len(Players)} - Mejenga Tipo Fut: {TipoMejenga} \n \n"
     _message = _message + '\n'.join(Players) + "\n \n"
     _message = _message + "Lista de Reservas: \n \n"
     _message = _message + '\n'.join(BackUp)
@@ -125,7 +124,7 @@ def nuevaMejenga(message):
     _nplayer = message.from_user.first_name
     if _nplayer in BackUp :
         BackUp.remove(message.from_user.first_name)
-        bot.send_message(chat_id=message.chat.id,text=f"La GRAN PERRA ASQUEROSA de {_nplayer} deserto a la mejenga.")
+        bot.send_message(chat_id=message.chat.id,text=f"La perra de {_nplayer} ya no es reserva, espero no se cague y vaya a jugar.")
     else:
         bot.reply_to(message,"Tiene que estar en lista para salirse, subnormal. :)")
 
@@ -136,21 +135,21 @@ def rifarEquipos(message):
          bot.reply_to(message,"No hay Mejenga. Armela <3")
          return
     
-    if TipoMejenga == 5 and Players.count != 10 :
+    if TipoMejenga == 5 and len(Players) != 10 :
          bot.reply_to(message,"Deben de haber al menos 10 Jugadores para rifar los equipos")
          return
     
-    if TipoMejenga == 8 and Players.count < 14 :
+    if TipoMejenga == 8 and len(Players) < 14 :
          bot.reply_to(message,"Deben de haber al menos 14 Jugadores para rifar los equipos")
          return
 
     _auxList = Players.copy()
     random.shuffle(_auxList)
 
-    length = len(Players)
+    length = len(_auxList)
     middle_index = length//2
-    first_half = Players[:middle_index]
-    second_half = Players[middle_index:]
+    first_half = _auxList[:middle_index]
+    second_half = _auxList[middle_index:]
 
     _message = f" --- {Mejenga} ----\n \n"
     _message = _message + f"Lista de Jugadores - Equipo Claro \n \n"
